@@ -11,10 +11,13 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     let itemArray = ["stop Thanos", "retreive all the Infinity Stones", "save the World"]
-
+    
+    //MARK: - Outlets
+    @IBOutlet var todoTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     
@@ -30,7 +33,20 @@ class TodoListViewController: UITableViewController {
         return cell
         
     }
-    
 
+    //MARK: - TableView Delegate Methods
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell?.accessoryType == UITableViewCellAccessoryType.checkmark {
+            cell?.accessoryType = .none
+        } else {
+            cell?.accessoryType = .checkmark
+        }
+        
+        let selectedRow = indexPath.row
+        print(itemArray[selectedRow])
+    }
 }
 

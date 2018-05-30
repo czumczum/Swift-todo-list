@@ -33,6 +33,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="to-do todo" id="SrN-Yc-d3u" colorLabel="IBBuiltInLabel-Green"/>
+                    <connections>
+                        <outlet property="todoTableView" destination="VpB-Z6-x6N" id="whQ-WS-3Lf"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mW1-5F-g6g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
