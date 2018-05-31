@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="BP7-Ot-w1w" id="irt-Kz-He5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="to-do todo" id="SrN-Yc-d3u" colorLabel="IBBuiltInLabel-Green"/>
+                    <navigationItem key="navigationItem" title="to-do todo" id="SrN-Yc-d3u" colorLabel="IBBuiltInLabel-Green">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Tgf-Ry-aJv">
+                            <color key="tintColor" red="0.0" green="0.58980089430000004" blue="1" alpha="0.65863120720000001" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="BP7-Ot-w1w" id="3Jo-t6-T9F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="todoTableView" destination="VpB-Z6-x6N" id="whQ-WS-3Lf"/>
                     </connections>
