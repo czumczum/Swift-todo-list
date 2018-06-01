@@ -11,6 +11,7 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     var itemArray : [String] = []
+    let defaults = UserDefaults.standard
     
     //MARK: - Outlets
     @IBOutlet var todoTableView: UITableView!
@@ -18,6 +19,10 @@ class TodoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Load the items from UserData
+        if let items = defaults.array(forKey: "todoListArray") as? [String] { //protection from casting nil to [String]
+            itemArray = items
+        }
     }
 
     
@@ -55,9 +60,10 @@ class TodoListViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Add new item allert", message: "", preferredStyle: .alert)
         var textField = UITextField()
-        let action = UIAlertAction(title: "Add new item", style: .default) { (action) in            
+        let action = UIAlertAction(title: "Add new item", style: .default) { (action) in
             if textField.text != "" {
-            self.itemArray.append(textField.text!)
+            self.itemArray.append(textField.text!) //add to data source array
+            self.defaults.set(self.itemArray, forKey: "todoListArray") //save all data to UserDefaults
             self.todoTableView.reloadData()
             }
         }
