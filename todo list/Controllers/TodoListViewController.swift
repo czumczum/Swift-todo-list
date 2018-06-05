@@ -26,7 +26,6 @@ class TodoListViewController: UITableViewController {
         
     }
 
-    
     //MARK: - Tableview Datasource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
@@ -95,15 +94,13 @@ class TodoListViewController: UITableViewController {
     }
     
     func loadItems() {
-//        if let data = try? Data(contentsOf: dataFilePath!) {
-//
-//            do {
-//
-//            } catch {
-//                print("Error decoding item array \(error)")
-//            }
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
 
-        }
-    
+            do {
+                itemArray = try context.fetch(request)
+            } catch {
+                print("Error fetching data \(error)")
+            }
+    }
 } 
 
