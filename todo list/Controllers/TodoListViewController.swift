@@ -1,7 +1,4 @@
 //
-//  ViewController.swift
-//  todo list
-//
 //  Created by Ula Kuczynska on 5/30/18.
 //  Copyright © 2018 Ula Kuczynska. All rights reserved.
 //
@@ -12,7 +9,6 @@ import CoreData
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Item.plist")
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     //MARK: - Outlets
@@ -103,4 +99,23 @@ class TodoListViewController: UITableViewController {
             }
     }
 } 
+
+//MARK: - SearchBar Delegate & methods
+extension TodoListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text! ) //non-sensitive for cases and diacricts
+        request.predicate = predicate
+        
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+        
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data \(error)")
+        }
+    }
+}
 
