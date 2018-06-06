@@ -9,6 +9,14 @@ import CoreData
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
+    var selectedCategory: Category? {
+        didSet{
+            print(selectedCategory)
+            //Load the items from CoreData after selected Category is set 
+            loadItems()
+            
+        }
+    }
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     //MARK: - Outlets
@@ -16,9 +24,6 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Load the items from CoreData
-        loadItems()
         
     }
 
@@ -60,7 +65,7 @@ class TodoListViewController: UITableViewController {
             if textField.text != "" {
                 let newItem = Item(context: self.context)
                 newItem.title = textField.text!
-                
+                newItem.parentCategory = self.selectedCategory
                 self.itemArray.append(newItem) //add to data source array
                 
                 //Datasave via encoder
@@ -91,13 +96,16 @@ class TodoListViewController: UITableViewController {
     
     func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         
-            do {
-                itemArray = try context.fetch(request)
-            } catch {
-                print("Error fetching data \(error)")
-            }
+        let predicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        request.predicate = predicate
         
-        todoTableView.reloadData()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data \(error)")
+        }
+        
+     todoTableView.reloadData()
     }
 } 
 
