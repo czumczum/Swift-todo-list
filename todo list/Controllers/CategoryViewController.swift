@@ -7,9 +7,11 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryViewController: UITableViewController {
+    
+    let realm = try! Realm()
     
     var categoryArray = [Category]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -19,7 +21,7 @@ class CategoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadCategories()
+//        loadCategories()
     }
     
     // MARK: - DataSource
@@ -54,26 +56,28 @@ class CategoryViewController: UITableViewController {
     
     // MARK: - Save data & Load data
     
-    func saveCategory() {
+    func save(with category: Category) {
         
         do {
-            try context.save()
+            try realm.write {
+                realm.add(category)
+            }
         } catch {
             print("Error saving context, \(error)!")
         }
         categoryTableView.reloadData()
     }
     
-    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
-        
-        do {
-            categoryArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data \(error)")
-        }
-        
-        categoryTableView.reloadData()
-    }
+//    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
+////
+////        do {
+////            categoryArray = try context.fetch(request)
+////        } catch {
+////            print("Error fetching data \(error)")
+////        }
+////
+////        categoryTableView.reloadData()
+//    }
     
     
     //MARK: - Add new categories
@@ -82,13 +86,12 @@ class CategoryViewController: UITableViewController {
         var textField = UITextField()
         let action = UIAlertAction(title: "Add new category", style: .default) { (action) in
             if textField.text != "" {
-                let newCategory = Category(context: self.context)
+                let newCategory = Category()
                 newCategory.name = textField.text!
                 
                 self.categoryArray.append(newCategory) //add to data source array
                 
-                //Datasave via encoder
-                self.saveCategory()
+                self.save(with: newCategory)
                 
             }
         }

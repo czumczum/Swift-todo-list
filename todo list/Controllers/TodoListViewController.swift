@@ -5,6 +5,7 @@
 
 import UIKit
 import CoreData
+import RealmSwift
 
 class TodoListViewController: UITableViewController {
     
@@ -12,7 +13,7 @@ class TodoListViewController: UITableViewController {
     var selectedCategory: Category? {
         didSet{
             //Load the items from CoreData after selected Category is set 
-            loadItems()
+//            loadItems()
             
         }
     }
@@ -58,80 +59,80 @@ class TodoListViewController: UITableViewController {
     //MARK: - Add new item
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        let alert = UIAlertController(title: "Add new item allert", message: "", preferredStyle: .alert)
-        var textField = UITextField()
-        let action = UIAlertAction(title: "Add new item", style: .default) { (action) in
-            if textField.text != "" {
-                let newItem = Item(context: self.context)
-                newItem.title = textField.text!
-                newItem.parentCategory = self.selectedCategory
-                self.itemArray.append(newItem) //add to data source array
-                
-                //Datasave via encoder
-                self.saveItems()
-                
-            }
-        }
-    
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Add new item"
-            textField = alertTextField
-        }
-        
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "Add new item allert", message: "", preferredStyle: .alert)
+//        var textField = UITextField()
+//        let action = UIAlertAction(title: "Add new item", style: .default) { (action) in
+//            if textField.text != "" {
+//                let newItem = Item(context: self.context)
+//                newItem.title = textField.text!
+//                newItem.parentCategory = self.selectedCategory
+//                self.itemArray.append(newItem) //add to data source array
+//
+//                //Datasave via encoder
+//                self.saveItems()
+//
+//            }
+//        }
+//    
+//        alert.addTextField { (alertTextField) in
+//            alertTextField.placeholder = "Add new item"
+//            textField = alertTextField
+//        }
+//        
+//        alert.addAction(action)
+//        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Data save & retreive methods via encoder
     func saveItems() {
-
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context, \(error)!")
-        }
-         todoTableView.reloadData()
+//
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Error saving context, \(error)!")
+//        }
+//         todoTableView.reloadData()
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), with predicate: NSPredicate? = nil) {
-        
-        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
-        if let passedPredicate = predicate {
-            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [passedPredicate, categoryPredicate])
-            request.predicate = compoundPredicate
-        } else {
-            request.predicate = categoryPredicate
-        }
-        
-        do {
-            itemArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data \(error)")
-        }
-        
-//     todoTableView.reloadData()
-    }
-} 
+//    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), with predicate: NSPredicate? = nil) {
+//
+//        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+//        if let passedPredicate = predicate {
+//            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [passedPredicate, categoryPredicate])
+//            request.predicate = compoundPredicate
+//        } else {
+//            request.predicate = categoryPredicate
+//        }
+//
+//        do {
+//            itemArray = try context.fetch(request)
+//        } catch {
+//            print("Error fetching data \(error)")
+//        }
+//
+////     todoTableView.reloadData()
+//    }
+}
 
 //MARK: - SearchBar Delegate & methods
-extension TodoListViewController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text! ) //non-sensitive for cases and diacricts
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        
-        loadItems(with: request, with: predicate)
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count == 0 {
-            loadItems()
-            
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        }
-    }
-}
+//extension TodoListViewController: UISearchBarDelegate {
+//
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        let request: NSFetchRequest<Item> = Item.fetchRequest()
+//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text! ) //non-sensitive for cases and diacricts
+//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+//
+//        loadItems(with: request, with: predicate)
+//    }
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        if searchText.count == 0 {
+//            loadItems()
+//
+//            DispatchQueue.main.async {
+//                searchBar.resignFirstResponder()
+//            }
+//        }
+//    }
+//}
 
