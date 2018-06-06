@@ -11,7 +11,6 @@ class TodoListViewController: UITableViewController {
     var itemArray = [Item]()
     var selectedCategory: Category? {
         didSet{
-            print(selectedCategory)
             //Load the items from CoreData after selected Category is set 
             loadItems()
             

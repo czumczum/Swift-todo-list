@@ -48,7 +48,6 @@ class CategoryViewController: UITableViewController {
         
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedCategory = categoryArray[indexPath.row]
-            print(destinationVC.selectedCategory)
         }
     }
     
