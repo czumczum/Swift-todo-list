@@ -50,10 +50,16 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if let selectedItem = todoItems?[indexPath.row] {
-            selectedItem.isDone = !selectedItem.isDone
-            saveItems(with: selectedItem)
+            do {
+                try realm.write {
+                    selectedItem.isDone = !selectedItem.isDone
+                }
+            } catch {
+                print("Error updatin an item \(error)")
+            }
         }
         
+        todoTableView.reloadData()
     }
     
     
@@ -87,7 +93,6 @@ class TodoListViewController: UITableViewController {
         if let parentCategory = selectedCategory {
             do {
                 try self.realm.write {
-                    print(item)
                     parentCategory.items.append(item)
                 }
             } catch {
@@ -99,7 +104,16 @@ class TodoListViewController: UITableViewController {
     
     func loadItems() {
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
-//        print(todoItems as! Results<Item>)
+    }
+    
+    func deleteItem(with item: Item) {
+        do {
+            try realm.write {
+                realm.delete(item)
+            }
+        } catch {
+            print("Error deleting an item \(error)")
+        }
     }
 }
 
