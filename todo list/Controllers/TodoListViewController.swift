@@ -93,6 +93,7 @@ class TodoListViewController: UITableViewController {
         if let parentCategory = selectedCategory {
             do {
                 try self.realm.write {
+                    item.dateCreated = Date()
                     parentCategory.items.append(item)
                 }
             } catch {
@@ -103,7 +104,8 @@ class TodoListViewController: UITableViewController {
     }
     
     func loadItems() {
-        todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+        todoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: true)
+        tableView.reloadData()
     }
     
     func deleteItem(with item: Item) {
@@ -118,24 +120,21 @@ class TodoListViewController: UITableViewController {
 }
 
 //MARK: - SearchBar Delegate & methods
-//extension TodoListViewController: UISearchBarDelegate {
-//
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        let request: NSFetchRequest<Item> = Item.fetchRequest()
-//        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text! ) //non-sensitive for cases and diacricts
-//        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//
-//        loadItems(with: request, with: predicate)
-//    }
-//
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        if searchText.count == 0 {
-//            loadItems()
-//
-//            DispatchQueue.main.async {
-//                searchBar.resignFirstResponder()
-//            }
-//        }
-//    }
-//}
+extension TodoListViewController: UISearchBarDelegate {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text! ) //non-sensitive for cases and diacricts
+        todoItems = todoItems?.filter(predicate).sorted(byKeyPath: "title", ascending: true)
+        todoTableView.reloadData()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count == 0 {
+            loadItems()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+}
 
