@@ -22,6 +22,8 @@ class CategoryViewController: UITableViewController {
         super.viewDidLoad()
         
         loadCategories()
+        
+        tableView.rowHeight = 70.0
     }
     
     // MARK: - DataSource
@@ -72,6 +74,18 @@ class CategoryViewController: UITableViewController {
         categories = realm.objects(Category.self)
     }
     
+    func deleteCategory(with category: Category) {
+        do {
+            try realm.write {
+                realm.delete(category)
+            }
+        } catch {
+            print("Error deleting an item \(error)")
+        }
+        
+//        tableView.reloadData()
+    }
+    
     
     //MARK: - Add new categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -109,12 +123,22 @@ extension CategoryViewController: SwipeTableViewCellDelegate {
         guard orientation == .right else { return nil }
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            // handle action by updating model with deletion
+            
+            if let deletedCategory = self.categories?[indexPath.row] {
+            self.deleteCategory(with: deletedCategory)
+            }
         }
         
         // customize the action appearance
         deleteAction.image = UIImage(named: "delete")
         
         return [deleteAction]
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
+        var options = SwipeTableOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
     }
 }
