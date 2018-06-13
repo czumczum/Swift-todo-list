@@ -5,9 +5,8 @@
 
 import UIKit
 import RealmSwift
-import SwipeCellKit
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     
     let realm = try! Realm()
     var todoItems: Results<Item>?
@@ -33,7 +32,7 @@ class TodoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let currentItem = todoItems?[indexPath.row] {
             cell.textLabel?.text = currentItem.title
@@ -87,6 +86,13 @@ class TodoListViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
         
+    }
+    
+    //MARK: - Swipe-delete method
+    override func updateModel(at indexPath: IndexPath) {
+        if let deletedItem = todoItems?[indexPath.row] {
+            deleteItem(with: deletedItem)
+        }
     }
     
     //MARK: - Data save & retreive methods via encoder
