@@ -12,6 +12,7 @@ import RealmSwift
 class CategoryViewController: SwipeTableViewController {
     
     let realm = try! Realm()
+    let realmMethods = RealmMethods()
     
     var categories: Results<Category>?
 
@@ -22,7 +23,6 @@ class CategoryViewController: SwipeTableViewController {
         
         loadCategories()
         
-        tableView.rowHeight = 70.0
     }
     
     // MARK: - DataSource
@@ -54,39 +54,15 @@ class CategoryViewController: SwipeTableViewController {
     //MARK: - Swipe-delete method
     override func updateModel(at indexPath: IndexPath) {
         if let deletedCategory = categories?[indexPath.row] {
-            deleteCategory(with: deletedCategory)
+            realmMethods.deleteFromRealm(with: deletedCategory)
         }
     }
     
-    // MARK: - Save data & Load data
-    
-    func save(with category: Category) {
-        
-        do {
-            try realm.write {
-                realm.add(category)
-            }
-        } catch {
-            print("Error saving context, \(error)!")
-        }
-        categoryTableView.reloadData()
-    }
+    // MARK: - Load data
     
     func loadCategories() {
         
         categories = realm.objects(Category.self)
-    }
-    
-    func deleteCategory(with category: Category) {
-        do {
-            try realm.write {
-                realm.delete(category)
-            }
-        } catch {
-            print("Error deleting an item \(error)")
-        }
-        
-//        tableView.reloadData()
     }
     
     
@@ -99,7 +75,8 @@ class CategoryViewController: SwipeTableViewController {
                 let newCategory = Category()
                 newCategory.name = textField.text!
                 
-                self.save(with: newCategory)
+                self.realmMethods.saveToRealm(with: newCategory)
+                self.categoryTableView.reloadData()
                 
             }
         }

@@ -9,6 +9,8 @@ import RealmSwift
 class TodoListViewController: SwipeTableViewController {
     
     let realm = try! Realm()
+    let realmMethods = RealmMethods()
+    
     var todoItems: Results<Item>?
     var selectedCategory: Category? {
         didSet{
@@ -91,7 +93,7 @@ class TodoListViewController: SwipeTableViewController {
     //MARK: - Swipe-delete method
     override func updateModel(at indexPath: IndexPath) {
         if let deletedItem = todoItems?[indexPath.row] {
-            deleteItem(with: deletedItem)
+            realmMethods.deleteFromRealm(with: deletedItem)
         }
     }
     
@@ -113,16 +115,6 @@ class TodoListViewController: SwipeTableViewController {
     func loadItems() {
         todoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: true)
         tableView.reloadData()
-    }
-    
-    func deleteItem(with item: Item) {
-        do {
-            try realm.write {
-                realm.delete(item)
-            }
-        } catch {
-            print("Error deleting an item \(error)")
-        }
     }
 }
 

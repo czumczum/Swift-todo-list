@@ -13,7 +13,9 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView.rowHeight = 70.0
+        
     }
     
     func visibleRect(for tableView: UITableView) -> CGRect? {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3CB3A02EF795884DA12A4CA2 /* Pods_todo_list.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0CD559AD3B6399E2A337C1B /* Pods_todo_list.framework */; };
 		750B94C220D16B91002E679E /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94C120D16B91002E679E /* SwipeTableViewController.swift */; };
+		750B94C420D1B9B4002E679E /* RealmMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750B94C320D1B9B4002E679E /* RealmMethods.swift */; };
 		7536345720BF33D400E7F235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7536345620BF33D400E7F235 /* AppDelegate.swift */; };
 		7536345920BF33D400E7F235 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7536345820BF33D400E7F235 /* TodoListViewController.swift */; };
 		7536345C20BF33D400E7F235 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7536345A20BF33D400E7F235 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		3842BF8E71E8328B836AC8C4 /* Pods-todo list.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todo list.release.xcconfig"; path = "Pods/Target Support Files/Pods-todo list/Pods-todo list.release.xcconfig"; sourceTree = "<group>"; };
 		750B94C120D16B91002E679E /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
+		750B94C320D1B9B4002E679E /* RealmMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMethods.swift; sourceTree = "<group>"; };
 		7536345320BF33D400E7F235 /* todo list.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "todo list.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7536345620BF33D400E7F235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7536345820BF33D400E7F235 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		7536346A20C1C0FB00E7F235 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				750B94C320D1B9B4002E679E /* RealmMethods.swift */,
 				75B4518B20C854FD00BF8FCB /* Item.swift */,
 				75B4518D20C8550800BF8FCB /* Category.swift */,
 			);
@@ -252,6 +255,7 @@
 				75B4518C20C854FD00BF8FCB /* Item.swift in Sources */,
 				754ED85320C8099A0091C7C1 /* CategoryViewController.swift in Sources */,
 				7536345920BF33D400E7F235 /* TodoListViewController.swift in Sources */,
+				750B94C420D1B9B4002E679E /* RealmMethods.swift in Sources */,
 				7536345720BF33D400E7F235 /* AppDelegate.swift in Sources */,
 				750B94C220D16B91002E679E /* SwipeTableViewController.swift in Sources */,
 				75B4518E20C8550800BF8FCB /* Category.swift in Sources */,
