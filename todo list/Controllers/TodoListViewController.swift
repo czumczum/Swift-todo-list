@@ -46,8 +46,8 @@ class TodoListViewController: SwipeTableViewController {
         
         if let categoryColor = selectedCategory?.backgroundColor {
             let percentage = (todoItems?.count)! > 0 ? CGFloat(indexPath.row)/CGFloat(20) : 0
-            print(todoItems?.count, percentage)
-            cell.backgroundColor = (UIColor(hexString: categoryColor)?.lighten(byPercentage: 0.5))?.darken(byPercentage: (CGFloat(percentage)))
+            cell.backgroundColor = (UIColor(hexString: categoryColor)?.lighten(byPercentage: 0.2))?.darken(byPercentage: (CGFloat(percentage)))
+            cell.textLabel?.textColor = UIColor(contrastingBlackOrWhiteColorOn: cell.backgroundColor!, isFlat: false)
         }
         
         return cell
