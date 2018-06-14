@@ -39,25 +39,32 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             
-            self.updateModel(at: indexPath)
+            self.updateModel(at: indexPath, with: "delete")
+
+        }
+        
+        let editAction = SwipeAction(style: .default, title: "Edit") { action, indexPath in
             
-            print("Deleted")
+            self.updateModel(at: indexPath, with: "edit")
         }
         
         // customize the action appearance
         deleteAction.image = UIImage(named: "delete")
+        editAction.backgroundColor = UIColor.flatSkyBlue
+        editAction.image = UIImage(named: "edit")
         
-        return [deleteAction]
+        return [deleteAction, editAction]
     }
     
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
+    
         var options = SwipeTableOptions()
         options.expansionStyle = .destructive
         options.transitionStyle = .border
         return options
     }
     
-    func updateModel(at indexPath: IndexPath) {
+    func updateModel(at indexPath: IndexPath, with action: String) {
         // Methods update data model
     }
 }

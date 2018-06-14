@@ -135,7 +135,7 @@ class TodoListViewController: SwipeTableViewController {
     
     
     //MARK: - Swipe-delete method
-    override func updateModel(at indexPath: IndexPath) {
+    override func updateModel(at indexPath: IndexPath, with action: String) {
         if let deletedItem = todoItems?[indexPath.row] {
             realmMethods.deleteFromRealm(with: deletedItem)
         }

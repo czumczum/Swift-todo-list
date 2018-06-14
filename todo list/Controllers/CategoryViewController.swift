@@ -56,17 +56,41 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     //MARK: - Swipe-delete method
-    override func updateModel(at indexPath: IndexPath) {
-        if let deletedCategory = categories?[indexPath.row] {
-            realmMethods.deleteFromRealm(with: deletedCategory)
+    override func updateModel(at indexPath: IndexPath, with action: String) {
+        
+        switch action {
+            case "delete":
+                if let deletedCategory = categories?[indexPath.row] {
+                    realmMethods.deleteFromRealm(with: deletedCategory)
+                }
+            case "edit":
+                if let editedCategory = categories?[indexPath.row] {
+                    editCategory(with: editedCategory)
+            }
+        default:
+            print("error in swipe action")
         }
+        
     }
     
-    // MARK: - Load data
+    // MARK: - Load data & edit data
     
     func loadCategories() {
         
         categories = realm.objects(Category.self)
+    }
+    
+    func editCategory(with category: Category) {
+        let menu = UIAlertController(title: "menu", message: "", preferredStyle: .actionSheet)
+        let changeNameAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
+            print("Change style")
+        }
+        let changeColorAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
+            print("Change color")
+        }
+        
+        menu.addAction(changeNameAction)
+        
     }
     
     
