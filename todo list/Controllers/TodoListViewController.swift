@@ -5,6 +5,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
     
@@ -41,6 +42,12 @@ class TodoListViewController: SwipeTableViewController {
             
             //Add checkmark or not
             cell.accessoryType = currentItem.isDone ? .checkmark : .none
+        }
+        
+        if let categoryColor = selectedCategory?.backgroundColor {
+            let percentage = (todoItems?.count)! > 0 ? CGFloat(indexPath.row)/CGFloat(20) : 0
+            print(todoItems?.count, percentage)
+            cell.backgroundColor = (UIColor(hexString: categoryColor)?.lighten(byPercentage: 0.5))?.darken(byPercentage: (CGFloat(percentage)))
         }
         
         return cell
@@ -89,6 +96,9 @@ class TodoListViewController: SwipeTableViewController {
         present(alert, animated: true, completion: nil)
         
     }
+    
+    //MARK: - Start/Stop timer
+    
     
     //MARK: - Swipe-delete method
     override func updateModel(at indexPath: IndexPath) {

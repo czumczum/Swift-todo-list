@@ -78,7 +78,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="10" reuseIdentifier="Cell" id="VBo-BY-Mkb" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" indentationWidth="10" reuseIdentifier="Cell" id="VBo-BY-Mkb" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                 <rect key="frame" x="0.0" y="84" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VBo-BY-Mkb" id="GOM-gq-U4v">
@@ -92,6 +92,7 @@
                             <outlet property="delegate" destination="BP7-Ot-w1w" id="4XI-US-M8X"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="to-do todo" id="SrN-Yc-d3u" colorLabel="IBBuiltInLabel-Orange">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Tgf-Ry-aJv">
                             <color key="tintColor" red="0.0" green="0.58980089430000004" blue="1" alpha="0.65863120720000001" colorSpace="custom" customColorSpace="sRGB"/>
@@ -100,6 +101,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="todoTableView" destination="VpB-Z6-x6N" id="whQ-WS-3Lf"/>
                     </connections>

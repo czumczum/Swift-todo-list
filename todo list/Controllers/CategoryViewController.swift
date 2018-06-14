@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class CategoryViewController: SwipeTableViewController {
     
@@ -33,6 +34,8 @@ class CategoryViewController: SwipeTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = categories?[indexPath.row].name ?? "There's nothing to display"
+        cell.backgroundColor = UIColor(hexString: categories?[indexPath.row].backgroundColor ?? "#ffffff")
+        
         return cell
         
     }
@@ -74,6 +77,9 @@ class CategoryViewController: SwipeTableViewController {
             if textField.text != "" {
                 let newCategory = Category()
                 newCategory.name = textField.text!
+                
+                //Add some color
+                newCategory.backgroundColor = RandomFlatColor().hexValue()
                 
                 self.realmMethods.saveToRealm(with: newCategory)
                 self.categoryTableView.reloadData()
