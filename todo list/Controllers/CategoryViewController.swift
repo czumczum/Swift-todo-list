@@ -94,7 +94,7 @@ class CategoryViewController: SwipeTableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Swipe-delete method
+    //MARK: - Swipe-delete & edit method
     override func updateModel(at indexPath: IndexPath, with action: String) {
         
         switch action {
@@ -102,6 +102,7 @@ class CategoryViewController: SwipeTableViewController {
             if let deletedCategory = categories?[indexPath.row] {
                 realmMethods.deleteFromRealm(with: deletedCategory)
             }
+            categoryTableView.reloadData()
         case "edit":
             if let editedCategory = categories?[indexPath.row] {
                 editButtonPressed(with: editedCategory)
@@ -148,7 +149,16 @@ class CategoryViewController: SwipeTableViewController {
             
         }
         let changeColorAction = UIAlertAction(title: "Change Color", style: .default) { (action) in
-            print("Change color")
+            
+            // Updating Category with a new color
+            do {
+                try self.realm.write {
+                    category.backgroundColor = RandomFlatColor().hexValue()
+                }
+            } catch {
+                print("Error updatin an item \(error)")
+            }
+            self.categoryTableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
         }

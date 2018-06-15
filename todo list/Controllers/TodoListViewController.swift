@@ -131,14 +131,23 @@ class TodoListViewController: SwipeTableViewController {
         
     }
     
-    //MARK: - Start/Stop timer
-    
-    
-    //MARK: - Swipe-delete method
+    //MARK: - Swipe-delete & edit method
     override func updateModel(at indexPath: IndexPath, with action: String) {
-        if let deletedItem = todoItems?[indexPath.row] {
-            realmMethods.deleteFromRealm(with: deletedItem)
+        
+        switch action {
+        case "delete":
+            if let deletedItem = todoItems?[indexPath.row] {
+                realmMethods.deleteFromRealm(with: deletedItem)
+            }
+            todoTableView.reloadData()
+        case "edit":
+            if let editedItem = todoItems?[indexPath.row] {
+                editButtonPressed(with: editedItem)
+            }
+        default:
+            print("error in swipe action")
         }
+        
     }
     
     //MARK: - Data save & retreive methods via encoder
@@ -159,6 +168,51 @@ class TodoListViewController: SwipeTableViewController {
     func loadItems() {
         todoItems = selectedCategory?.items.sorted(byKeyPath: "dateCreated", ascending: true)
         tableView.reloadData()
+    }
+    
+    //MARK: - Edit categories
+    
+    func editButtonPressed(with item: Item) {
+        // Create an action sheet with editing options
+        let menu = UIAlertController(title: "Edit element", message: nil, preferredStyle: .actionSheet)
+        
+        // Name change
+        let changeNameAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
+            
+            // Alert-prompt to enter a new name
+            let alert = UIAlertController(title: "Edit name", message: "", preferredStyle: .alert)
+            var textField = UITextField()
+            let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                
+                // Updating Category with a new name
+                if let newName = textField.text {
+                    do {
+                        try self.realm.write {
+                            item.title = newName
+                        }
+                    } catch {
+                        print("Error updatin an item \(error)")
+                    }
+                }
+                self.todoTableView.reloadData()
+            })
+            
+            alert.addAction(action)
+            alert.addTextField { (alertTextField) in
+                alertTextField.placeholder = "New name"
+                textField = alertTextField
+            }
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        
+        menu.addAction(changeNameAction)
+        menu.addAction(cancelAction)
+        
+        present(menu, animated: true)
+        
     }
 }
 
