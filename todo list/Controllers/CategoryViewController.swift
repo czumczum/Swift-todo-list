@@ -65,7 +65,7 @@ class CategoryViewController: SwipeTableViewController {
                 }
             case "edit":
                 if let editedCategory = categories?[indexPath.row] {
-                    editCategory(with: editedCategory)
+                    editButtonPressed(with: editedCategory)
             }
         default:
             print("error in swipe action")
@@ -73,52 +73,106 @@ class CategoryViewController: SwipeTableViewController {
         
     }
     
-    // MARK: - Load data & edit data
+    // MARK: - Save, Load data & edit data
     
     func loadCategories() {
         
         categories = realm.objects(Category.self)
     }
     
-    func editCategory(with category: Category) {
-        let menu = UIAlertController(title: "menu", message: "", preferredStyle: .actionSheet)
-        let changeNameAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
-            print("Change style")
+    func saveCategory(with name: String) {
+        let textField = name
+        print(textField)
+        if textField != "" {
+            let newCategory = Category()
+            newCategory.name = textField
+            
+            //Add some color
+            newCategory.backgroundColor = RandomFlatColor().hexValue()
+            
+            self.realmMethods.saveToRealm(with: newCategory)
         }
-        let changeColorAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
-            print("Change color")
-        }
-        
-        menu.addAction(changeNameAction)
+        categoryTableView.reloadData()
+    }
+    
+    func editCategoryName(with name: String) {
         
     }
     
     
-    //MARK: - Add new categories
+    
+    //MARK: - Add new categories & edit existed
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Add new category alert", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
         var textField = UITextField()
-        let action = UIAlertAction(title: "Add new category", style: .default) { (action) in
-            if textField.text != "" {
-                let newCategory = Category()
-                newCategory.name = textField.text!
+        if textField.text != "" {
+            switch message {
+            case "Add New Category":
+                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
+                    self.saveCategory(with: textField.text!)
+                })
                 
-                //Add some color
-                newCategory.backgroundColor = RandomFlatColor().hexValue()
-                
-                self.realmMethods.saveToRealm(with: newCategory)
-                self.categoryTableView.reloadData()
-                
+                alert.addAction(action)
+            default:
+                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
+                    self.saveCategory(with: textField.text!)
+                })
+                alert.addAction(action)
             }
+            
+            alert.addTextField { (alertTextField) in
+                alertTextField.placeholder = message
+                textField = alertTextField
+            }
+            present(alert, animated: true, completion: nil)
         }
         
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Add new category"
-            textField = alertTextField
+    }
+    
+    func editButtonPressed(with category: Category) {
+        let menu = UIAlertController(title: "Edit element", message: nil, preferredStyle: .actionSheet)
+        let changeNameAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
+            self.promptTextAlert(with: "Edit Category Name")
+        }
+        let changeColorAction = UIAlertAction(title: "Change Color", style: .default) { (action) in
+            print("Change color")
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
         }
         
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
+        menu.addAction(changeNameAction)
+        menu.addAction(changeColorAction)
+        menu.addAction(cancelAction)
+        
+        present(menu, animated: true)
+        
+    }
+    
+    func promptTextAlert(with message: String) {
+        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+        var textField = UITextField()
+        if textField.text != "" {
+            switch message {
+            case "Add New Category":
+                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
+                    self.saveCategory(with: textField.text!)
+                })
+                
+                alert.addAction(action)
+            default:
+                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
+                    self.saveCategory(with: textField.text!)
+                })
+                alert.addAction(action)
+                }
+            
+            alert.addTextField { (alertTextField) in
+                alertTextField.placeholder = message
+                textField = alertTextField
+                }
+            present(alert, animated: true, completion: nil)
+            }
+
     }
     
 }
