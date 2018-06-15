@@ -55,25 +55,7 @@ class CategoryViewController: SwipeTableViewController {
         }
     }
     
-    //MARK: - Swipe-delete method
-    override func updateModel(at indexPath: IndexPath, with action: String) {
-        
-        switch action {
-            case "delete":
-                if let deletedCategory = categories?[indexPath.row] {
-                    realmMethods.deleteFromRealm(with: deletedCategory)
-                }
-            case "edit":
-                if let editedCategory = categories?[indexPath.row] {
-                    editButtonPressed(with: editedCategory)
-            }
-        default:
-            print("error in swipe action")
-        }
-        
-    }
-    
-    // MARK: - Save, Load data & edit data
+    // MARK: - Save, Load data
     
     func loadCategories() {
         
@@ -95,44 +77,75 @@ class CategoryViewController: SwipeTableViewController {
         categoryTableView.reloadData()
     }
     
-    func editCategoryName(with name: String) {
-        
-    }
-    
-    
-    
-    //MARK: - Add new categories & edit existed
+    //MARK: - Add new categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         var textField = UITextField()
-        if textField.text != "" {
-            switch message {
-            case "Add New Category":
-                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
-                    self.saveCategory(with: textField.text!)
-                })
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                self.saveCategory(with: textField.text!)
+            })
                 
-                alert.addAction(action)
-            default:
-                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
-                    self.saveCategory(with: textField.text!)
-                })
-                alert.addAction(action)
-            }
-            
+            alert.addAction(action)
             alert.addTextField { (alertTextField) in
-                alertTextField.placeholder = message
+                alertTextField.placeholder = "New Category"
                 textField = alertTextField
             }
-            present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - Swipe-delete method
+    override func updateModel(at indexPath: IndexPath, with action: String) {
+        
+        switch action {
+        case "delete":
+            if let deletedCategory = categories?[indexPath.row] {
+                realmMethods.deleteFromRealm(with: deletedCategory)
+            }
+        case "edit":
+            if let editedCategory = categories?[indexPath.row] {
+                editButtonPressed(with: editedCategory)
+            }
+        default:
+            print("error in swipe action")
         }
         
     }
     
+    //MARK: - Edit categories
+    
     func editButtonPressed(with category: Category) {
+        // Create an action sheet with editing options
         let menu = UIAlertController(title: "Edit element", message: nil, preferredStyle: .actionSheet)
+        
+        // Name change
         let changeNameAction = UIAlertAction(title: "Change Name", style: .default) { (action) in
-            self.promptTextAlert(with: "Edit Category Name")
+            
+            // Alert-prompt to enter a new name
+            let alert = UIAlertController(title: "Edit name", message: "", preferredStyle: .alert)
+            var textField = UITextField()
+            let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                
+                // Updating Category with a new name
+                if let newName = textField.text {
+                    do {
+                        try self.realm.write {
+                            category.name = newName
+                        }
+                    } catch {
+                        print("Error updatin an item \(error)")
+                    }
+                }
+                self.categoryTableView.reloadData()
+            })
+
+            alert.addAction(action)
+            alert.addTextField { (alertTextField) in
+                alertTextField.placeholder = "New name"
+                textField = alertTextField
+            }
+            self.present(alert, animated: true, completion: nil)
+            
         }
         let changeColorAction = UIAlertAction(title: "Change Color", style: .default) { (action) in
             print("Change color")
@@ -146,33 +159,6 @@ class CategoryViewController: SwipeTableViewController {
         
         present(menu, animated: true)
         
-    }
-    
-    func promptTextAlert(with message: String) {
-        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
-        var textField = UITextField()
-        if textField.text != "" {
-            switch message {
-            case "Add New Category":
-                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
-                    self.saveCategory(with: textField.text!)
-                })
-                
-                alert.addAction(action)
-            default:
-                let action = UIAlertAction(title: message, style: .default, handler: { (action) in
-                    self.saveCategory(with: textField.text!)
-                })
-                alert.addAction(action)
-                }
-            
-            alert.addTextField { (alertTextField) in
-                alertTextField.placeholder = message
-                textField = alertTextField
-                }
-            present(alert, animated: true, completion: nil)
-            }
-
     }
     
 }
