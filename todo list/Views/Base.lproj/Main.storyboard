@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,17 +34,12 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="to-do todo" id="XrQ-Ie-b21">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="vQD-Xv-1PH">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="addButtonPressed:" destination="YTA-u7-vf4" id="gzZ-aw-5Am"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="undo" id="KN1-1Y-5uW">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="vQD-Xv-1PH">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="YTA-u7-vf4" id="gzZ-aw-5Am"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -97,17 +91,12 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="to-do todo" id="SrN-Yc-d3u" colorLabel="IBBuiltInLabel-Orange">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="Tgf-Ry-aJv">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="addButtonPressed:" destination="BP7-Ot-w1w" id="3Jo-t6-T9F"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="undo" id="9y9-E7-zJ4">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Tgf-Ry-aJv">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="BP7-Ot-w1w" id="3Jo-t6-T9F"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
